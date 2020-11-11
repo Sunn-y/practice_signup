@@ -1,6 +1,7 @@
 <template>
 <div>
-	<h1>All Users</h1>
+	<h1>All Users({{allUsersCount}})</h1>
+	<h3>👉count France : {{allUsersCount}}({{percentFrance}})</h3>
 	<v-list two-line>
 		<v-list-tile v-for="(user, index) in allUsers" :key="index" avatar>
 			<v-list-tile-avatar color="grey lighten-3">
@@ -18,40 +19,22 @@
 </template>
 
 <script>
-import {
-	EventBus
-} from '@/main.js'
-
+import { mapGetters } from 'vuex'
+import { mapState } from 'vuex'
+import { EventBus } from '@/main.js'
 export default {
 	data() {
 		return {
-			allUsers: [{
-					userId: 'mike00',
-					password: '123',
-					name: 'Mike',
-					address: 'France',
-					src: 'https://www.flaticon.com/svg/static/icons/svg/145/145867.svg'
-				},
-				{
-					userId: 'jane00',
-					password: '456',
-					name: 'Jane',
-					address: 'Spain',
-					src: 'https://www.flaticon.com/svg/static/icons/svg/145/145866.svg'
-				},
-				{
-					userId: 'alice00',
-					password: '789',
-					name: 'Alice',
-					address: 'Portugal',
-					src: 'https://www.flaticon.com/svg/static/icons/svg/145/145852.svg'
-				}
-			]
+
 		}
+	},
+	computed: {
+		...mapGetters(['allUsersCount', 'countFrance', 'percentFrance']),
+		...mapState(['allUsers'])
 	},
 	mounted() {
 		EventBus.$on('signUp', users => {
-			this.allUsers.push(users)
+			this.$store.state.allUsers.push(users)
 		})
 	}
 }

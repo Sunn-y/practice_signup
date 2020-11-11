@@ -5,15 +5,16 @@
 	<v-text-field label="password" type="password" v-model="password"></v-text-field>
 	<v-text-field label="userName" v-model="name"></v-text-field>
 	<v-text-field label="Address" v-model="address"></v-text-field>
-	<v-text-field label="Avatar" v-model="src"></v-text-field>
+	<v-text-field label="Avatar src" v-model="src"></v-text-field>
 	<v-btn block color="cyan" @click="signUp">Sign Up</v-btn>
 </div>
 </template>
 
 <script>
-import {
-	EventBus
-} from '@/main.js'
+// import {
+// 	mapMutations
+// } from 'vuex'
+import { mapActions} from 'vuex'
 
 export default {
 	data() {
@@ -26,6 +27,8 @@ export default {
 		}
 	},
 	methods: {
+		//...mapMutations(['addUsers']),
+		...mapActions(['addUsers']),
 		signUp() {
 			let userObj = {
 				userId: this.userId,
@@ -34,8 +37,10 @@ export default {
 				address: this.address,
 				src: this.src
 			}
-			EventBus.$emit('signUp', userObj)
-			this.clearForm()
+			//	this.addUsers(userObj);
+			//this.$store.commit('addUsers', userObj);
+			this.addUsers(userObj);
+			this.clearForm();
 		},
 		clearForm() {
 			this.userId = null,
